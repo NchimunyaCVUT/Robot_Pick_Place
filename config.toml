@@ -1,0 +1,57 @@
+[logging]
+level = "INFO" # Valid values are "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"
+name_char_length = 15 # How many characters should the 'name' field have in the log
+level_char_length = 8 # How many characters should the 'level' field have in the log
+
+[pick_place]
+robot_positions_file = "./config/robot_positions.json"
+speed_override = 100
+min_pick_distance = 800
+max_pick_distance = 1800
+z_height_min = 10 # Minimum height for robot picking movement in conveyor belt coordinates
+z_height = 150 # How high up will the robot be moving the items
+
+[opcua]
+ip = "10.100.0.120"
+port = 4840
+username = ""
+password = ""
+workplace_namespace_uri = "http://w4.ti40.cz"
+robots_namespace_uri = "http://robots.ti40.cz"
+transport_namespace_uri = "http://transportation.ti40.cz"
+
+[homography]
+base_camera_depth = 800 # Max distance from depth camera in millimeters
+base_camera_depth_offset = 0 # Used to account for difference between tag placement height and conveyor belt surface, positive numbers are tags above the belt
+frames_per_update = 100
+apriltag_points_file = "./config/conveyor_points.json"
+
+[gemini]
+model_name = "gemini-2.5-flash-preview-04-17"
+bounding_box_system_instructions = """Return bounding boxes as a JSON array with labels. Never return masks or code fencing. Limit to 25 objects. If an object is present multiple times, name them according to their unique characteristic (colors, size, position, unique characteristics, etc..). You must return detection results as valid JSON only without any additional text."""
+prompt = """You have the task of emptying the bin in the most efficient and quickest way possible.Detect and draw the bounding box only for the first item you would pick and label it by its colour and size only. If the bin is empty, do not do anything. Remember to judge based on size, distance, orientation and any other variable you might consider to make the task as quick as possible."""
+google_api_key = "AIzaSyDXHTll8WozYgmPI5dLFPgNpxWs0XV5jLQ" 
+Output_Directory = "Gemini_Output"
+Results_Directory = "Gemini_Results" 
+image_directory = "captured_frames"            
+
+
+[graphics]
+text_size = 1
+show_depth_map = false
+show_info = true
+
+[detector]
+type = "HSV" # Valid values are "HSV", "YOLOv8_material", "YOLOv8_object"
+
+[detector.hsv]
+show_detections = true
+show_hsv_mask = false
+ignore_vertical_px = 133
+ignore_horizontal_px = 50
+max_ratio_error = 0.5
+white_lower = [60, 0, 85]
+white_upper = [179, 255, 255]
+brown_lower = [0, 33, 57]
+brown_upper = [60, 255, 178]
+
